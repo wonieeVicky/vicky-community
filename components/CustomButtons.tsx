@@ -7,10 +7,20 @@ interface CustomButtonsProps extends PressableProps {
   variant?: "filled";
 }
 
-function CustomButtons({ label, size = "large", variant = "filled", ...props }: CustomButtonsProps) {
+function CustomButtons({
+  label,
+  size = "large",
+  variant = "filled",
+  ...props
+}: CustomButtonsProps) {
   return (
     <Pressable
-      style={({ pressed }) => [styles.container, styles[size], styles[variant], pressed && styles.pressed]}
+      style={({ pressed }) => [
+        styles.container,
+        styles[size],
+        styles[variant],
+        pressed && styles.pressed
+      ]}
       {...props}
     >
       <Text style={styles[variant]}>{label}</Text>
@@ -26,8 +36,7 @@ const styles = StyleSheet.create({
   },
   large: {
     padding: 16,
-    width: "100%",
-    height: 44
+    width: "100%"
   },
   medium: {},
   filled: {
