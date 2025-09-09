@@ -7,7 +7,9 @@
   GRAY_300: "#D1D5DB",
   GRAY_500: "#6B7280",
   GRAY_600: "#4B5563",
-  GRAY_700: "#374151"
+  GRAY_700: "#374151",
+  RED_100: "#FFDFDF",
+  RED_500: "#FF5F5F"
 };
 
 export { colors };
