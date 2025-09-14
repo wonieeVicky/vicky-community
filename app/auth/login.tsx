@@ -1,6 +1,7 @@
 ﻿import EmailInput from "@/components/EmailInput";
 import FixedButtomCTA from "@/components/FixedButtomCTA";
 import PasswordInput from "@/components/PasswordInput";
+import useAuth from "@/hooks/queries/useAuth";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 
@@ -10,6 +11,7 @@ type FormValues = {
 };
 
 export default function LoginScreen() {
+  const { loginMutation } = useAuth();
   const loginForm = useForm<FormValues>({
     defaultValues: {
       email: "",
@@ -18,7 +20,8 @@ export default function LoginScreen() {
   });
 
   const onSubmit: SubmitHandler<FormValues> = (formValues) => {
-    console.log(formValues);
+    const { email, password } = formValues;
+    loginMutation.mutate({ email, password });
   };
 
   return (
