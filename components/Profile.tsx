@@ -36,6 +36,7 @@ function Profile({
           <Text style={styles.createdAt}>{dayjs(createdAt).fromNow()}</Text>
         </View>
       </Pressable>
+      {option}
     </View>
   );
 }
