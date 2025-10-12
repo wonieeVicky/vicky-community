@@ -10,9 +10,10 @@ import Profile from "./Profile";
 
 interface FeedItemProps {
   post: Post;
+  isDetail?: boolean;
 }
 
-function FeedItem({ post }: FeedItemProps) {
+function FeedItem({ post, isDetail = false }: FeedItemProps) {
   const { auth } = useAuth();
   const likeUsers = post.likes?.map((like) => Number(like.userId));
   const isLiked = likeUsers?.includes(Number(auth.id));
@@ -43,8 +44,14 @@ function FeedItem({ post }: FeedItemProps) {
     );
   };
 
+  const handlePressFeed = () => {
+    !isDetail && router.push(`/post/${post.id}`);
+  };
+
+  const ContainerComponent = isDetail ? View : Pressable;
+
   return (
-    <View style={styles.container}>
+    <ContainerComponent style={styles.container} onPress={handlePressFeed}>
       <View style={styles.contentContainer}>
         <Profile
           imageUri={post.author.imageUri}
@@ -86,7 +93,7 @@ function FeedItem({ post }: FeedItemProps) {
           <Text>{post.viewCount || "조회수"}</Text>
         </Pressable>
       </View>
-    </View>
+    </ContainerComponent>
   );
 }
 
