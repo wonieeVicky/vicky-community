@@ -5,25 +5,23 @@ import InputField from "@/components/InputField";
 import { colors } from "@/constants";
 import useCreateComment from "@/hooks/queries/useCreateComment";
 import useGetPost from "@/hooks/queries/useGetPost";
-import { useLocalSearchParams, useNavigation } from "expo-router";
+import usePlatformKeyboardContainer from "@/hooks/usePlatformKeyboardContainer";
+import { useLocalSearchParams } from "expo-router";
 import { useRef, useState } from "react";
-import {
-  Pressable,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View
-} from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function PostDetailScreen() {
   const { id } = useLocalSearchParams();
-  const navigation = useNavigation();
   const { data: post, isPending, isError } = useGetPost(Number(id));
   const createComment = useCreateComment();
   const [content, setContent] = useState("");
   const scrollRef = useRef<ScrollView | null>(null);
+  const { Container, containerProps } = usePlatformKeyboardContainer({
+    contentContainerStyle: styles.awareScrollViewContainer,
+    behavior: "height",
+    androidOffsetWhenVisible: 100
+  });
 
   if (isPending || isError) {
     return <></>;
@@ -44,9 +42,7 @@ export default function PostDetailScreen() {
   return (
     <AuthRoute>
       <SafeAreaView style={styles.container}>
-        <KeyboardAwareScrollView
-          contentContainerStyle={styles.awareScrollViewContainer}
-        >
+        <Container {...containerProps}>
           <ScrollView
             ref={scrollRef}
             contentContainerStyle={styles.scrollViewContainer}
@@ -80,7 +76,7 @@ export default function PostDetailScreen() {
               }
             />
           </View>
-        </KeyboardAwareScrollView>
+        </Container>
       </SafeAreaView>
     </AuthRoute>
   );
@@ -119,7 +115,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.ORANGE_600,
     padding: 8,
     borderRadius: 5,
-    height: 30
+    height: 32
   },
   inputButtonText: {
     color: colors.WHITE,
