@@ -1,5 +1,6 @@
 import queryClient from "@/api/queryClient";
 import useAuth from "@/hooks/queries/useAuth";
+import { useReactQueryDevTools } from "@dev-plugins/react-query";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
@@ -9,6 +10,7 @@ import "react-native-reanimated";
 import Toast from "react-native-toast-message";
 
 export default function RootLayout() {
+  useReactQueryDevTools(queryClient);
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf")
   });
@@ -17,6 +19,7 @@ export default function RootLayout() {
     // Async font loading only occurs in development.
     return null;
   }
+
 
   return (
     <ActionSheetProvider>
